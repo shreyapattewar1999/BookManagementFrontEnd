@@ -1,0 +1,88 @@
+<div *ngIf="userData?.isAdmin">
+  <button
+    mat-stroked-button
+    color="accent"
+    (click)="addNewBook()"
+    class="ml2 b1"
+  >
+    Add new book
+  </button>
+</div>
+<div class="ml2">
+  <h2>Available Books</h2>
+</div>
+<div class="tableContainer">
+  <table mat-table [dataSource]="dataSource">
+    <!-- Number Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let row">{{ row.number }}</td>
+    </ng-container>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+    </ng-container>
+
+    <!-- State Column -->
+    <ng-container matColumnDef="genre">
+      <th mat-header-cell *matHeaderCellDef>Genre</th>
+      <td mat-cell *matCellDef="let row">{{ row.genre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="noOfPages">
+      <th mat-header-cell *matHeaderCellDef>No Of Pages</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfPages }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="rating">
+      <th mat-header-cell *matHeaderCellDef>Rating</th>
+      <td mat-cell *matCellDef="let row">{{ row.rating }}</td>
+    </ng-container>
+    <ng-container matColumnDef="bookUpdate" *ngIf="!userData?.isAdmin">
+      <th mat-header-cell *matHeaderCellDef>Issue Book</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" (click)="issueBook(row)">
+          Issue
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bookUpdate" *ngIf="userData?.isAdmin">
+      <th mat-header-cell *matHeaderCellDef>Edit Book</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" (click)="openDialog(row)">
+          Edit
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteBook" *ngIf="userData?.isAdmin">
+      <th mat-header-cell *matHeaderCellDef>Delete Book</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" (click)="deleteBook(row)">
+          <i class="material-icons">delete</i>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Created Column -->
+    <!-- <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Created
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+      </ng-container> -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- <mat-paginator [length]="allBooks.length" [pageSize]="2"></mat-paginator> -->
+</div>
+<!-- <mat-spinner *ngIf="!flag" class="spinner"></mat-spinner> -->

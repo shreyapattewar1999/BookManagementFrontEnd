@@ -1,0 +1,20 @@
+.mat-column-title {
+  width: 15rem;
+}
+
+.mat-column-genre {
+  width: 15rem;
+}
+
+.mat-column-description {
+  text-align: justify;
+}
+
+.ml2 {
+  margin-left: 2%;
+  margin-top: 1%;
+}
+
+.b1 {
+  border: 1px solid !important;
+}

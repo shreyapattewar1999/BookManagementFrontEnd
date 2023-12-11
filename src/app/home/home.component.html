@@ -1,0 +1,221 @@
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <div class="example-card" *ngFor="let bookEndPoint of bookEndPoints">
+        <mat-accordion>
+          <mat-expansion-panel
+            [ngClass]="{
+              getBox: bookEndPoint.methodType == 'GET',
+              putBox: bookEndPoint.methodType == 'PUT',
+              deleteBox: bookEndPoint.methodType == 'DELETE',
+              patchBox: bookEndPoint.methodType == 'PATCH',
+              postBox: bookEndPoint.methodType == 'POST'
+            }"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <div [ngStyle]="{ width: '15%' }">
+                  <button
+                    [ngStyle]="{
+                      color: 'white',
+                      paddingLeft: '2%',
+                      paddingRight: '2%',
+                      paddingTop: '10%',
+                      paddingBottom: '10%',
+                      borderRadius: '5%',
+                      width: '100%',
+                      borderWidth: '0px',
+                      fontWeight: 'bold'
+                    }"
+                    [ngClass]="{
+              'get-btn': bookEndPoint.methodType === 'GET',
+              'put-btn': bookEndPoint.methodType === 'PUT',
+              'patch-btn': bookEndPoint.methodType === 'PATCH',
+              'delete-btn': bookEndPoint.methodType === 'DELETE',
+              'post-btn': bookEndPoint.methodType === 'POST',
+            }"
+                  >
+                    {{ bookEndPoint.methodType }}
+                  </button>
+                </div>
+                <span [ngStyle]="{ paddingLeft: '20px' }">
+                  {{ bookEndPoint.name }}
+                </span>
+              </mat-panel-title>
+              <!-- <mat-panel-description>
+          Currently I am {{ panelOpenState ? "open" : "closed" }}
+        </mat-panel-description> -->
+            </mat-expansion-panel-header>
+            <form [formGroup]="form">
+              <div>
+                <div *ngFor="let field of bookEndPoint?.fields">
+                  <mat-form-field *ngIf="field.isDropDown">
+                    <mat-label>{{ field?.displayName }}</mat-label>
+                    <mat-select [formControlName]="field.id">
+                      @for (item of field.dropDownFields; track item) {
+                      <mat-option [value]="item.value">{{
+                        item?.displayName
+                      }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="!field.isDropDown">
+                    <mat-label>{{ field?.displayName }}</mat-label>
+                    <input
+                      matInput
+                      [placeholder]="field?.placeholder || ''"
+                      [required]="field?.isRequired || false"
+                      [formControlName]="field.id"
+                    />
+                  </mat-form-field>
+                </div>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="executeApi(bookEndPoint)"
+                >
+                  Execute
+                </button>
+              </div>
+            </form>
+            <!-- <form [formGroup]="form">
+              <div>
+                <div *ngIf="bookEndPoint?.isRequestParameters">
+                  <div *ngFor="let field of bookEndPoint?.requestParameters">
+                    <mat-form-field *ngIf="field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <mat-select [formControlName="field.id" ]>
+                        @for (item of field.dropDownFields; track item) {
+                        <mat-option [value]="item.value">{{
+                          item?.displayName
+                        }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="!field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <input
+                        matInput
+                        [placeholder]="field?.placeholder || ''"
+                        [required]="field?.isRequired || false"
+                        [formControlName]="field.id"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div *ngIf="bookEndPoint?.isSearchParameters">
+                  <div *ngFor="let field of bookEndPoint?.searchParameters">
+                    <mat-form-field *ngIf="field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <mat-select [formControlName]="field.id">
+                        @for (item of field.dropDownFields; track item) {
+                        <mat-option [value]="item.value">{{
+                          item.displayName
+                        }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="!field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <input
+                        matInput
+                        [placeholder]="field?.placeholder || ''"
+                        [required]="field?.isRequired || false"
+                        [formControlName]="field.id"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+            </form> -->
+
+            <!-- <form [formGroup]="form">
+              <div>
+                <div *ngIf="bookEndPoint?.isRequestParameters">
+                  <div *ngFor="let field of bookEndPoint?.requestParameters">
+                    <mat-form-field *ngIf="field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <mat-select [formControlName="field.id" ]>
+                        @for (item of field.dropDownFields; track item) {
+                        <mat-option [value]="item.value">{{
+                          item?.displayName
+                        }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="!field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <input
+                        matInput
+                        [placeholder]="field?.placeholder || ''"
+                        [required]="field?.isRequired || false"
+                        [formControlName]="field.id"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div *ngIf="bookEndPoint?.isBody">
+                  <div *ngFor="let field of bookEndPoint?.bodyDetails">
+                    <mat-form-field *ngIf="field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <mat-select [formControlName]="field.id">
+                        @for (item of field.dropDownFields; track item) {
+                        <mat-option [value]="item.value">{{
+                          item.displayName
+                        }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="!field.isDropDown">
+                      <mat-label>{{ field?.displayName }}</mat-label>
+                      <input
+                        matInput
+                        [placeholder]="field?.placeholder || ''"
+                        [required]="field?.isRequired || false"
+                        [formControlName]="field.id"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="executeApi(bookEndPoint)"
+                >
+                  Execute
+                </button>
+              </div>
+            </form> -->
+          </mat-expansion-panel>
+        </mat-accordion>
+        <br />
+      </div>
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side">
+      <h2
+        [ngStyle]="{
+          color: 'primary'
+        }"
+      >
+        Response Body
+      </h2>
+      <div *ngIf="output !== null">
+        <pre
+          [ngStyle]="{
+            padding: '10px',
+            wordWrap: 'break-word;',
+            width: '100px !important',
+            overflowWrap: 'break-word !important',
+            whiteSpace: 'pre !important'
+          }"
+          >{{ output | json }}</pre
+        >
+      </div>
+    </div>
+  </div>
+</main>

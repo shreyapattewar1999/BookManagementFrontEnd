@@ -1,0 +1,166 @@
+<div class="bookModal">
+  <div mat-dialog-title class="dialog-title">
+    <h1 [ngStyle]="{ paddingTop: '15px' }">Update Book Details</h1>
+    <button
+      tabindex="-1"
+      mat-icon-button
+      aria-label="close dialog"
+      mat-dialog-close
+      (click)="closeModal()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-form-field class="w100">
+        <mat-label>Book Title</mat-label>
+        <input
+          matInput
+          placeholder="Enter Book Title"
+          [formControlName]="'title'"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w100">
+        <mat-label>Book Description</mat-label>
+        <textarea
+          matInput
+          placeholder="Enter Book Description"
+          [formControlName]="'description'"
+        ></textarea>
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w50">
+        <mat-label>Publisher</mat-label>
+        <input
+          matInput
+          placeholder="Enter name of publisher"
+          [formControlName]="'publisher'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w50">
+        <mat-label>Published Year</mat-label>
+        <input
+          matInput
+          placeholder="Enter published year"
+          [formControlName]="'publishedYear'"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w100">
+        <mat-label>Genre</mat-label>
+        <input matInput placeholder="Genre" [formControlName]="'genre'" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w33">
+        <mat-label>No of Copies</mat-label>
+        <input
+          matInput
+          placeholder="Enter number of copies"
+          [formControlName]="'copies'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w33">
+        <mat-label>Rating</mat-label>
+        <input
+          matInput
+          placeholder="Enter average book rating"
+          [formControlName]="'rating'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w33">
+        <mat-label>No of Pages</mat-label>
+        <input
+          matInput
+          placeholder="Enter number of pages in a book"
+          [formControlName]="'noOfPages'"
+        />
+      </mat-form-field>
+      <br />
+      <h1>Author Details</h1>
+      <mat-form-field class="w50">
+        <mat-label>Author First Name</mat-label>
+        <input
+          matInput
+          placeholder="Enter first name of author"
+          [formControlName]="'authorFname'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w50">
+        <mat-label>Author Last Name</mat-label>
+        <input
+          matInput
+          placeholder="Enter last name of author"
+          [formControlName]="'authorLname'"
+        />
+      </mat-form-field>
+      <br />
+      <h3>Author Address</h3>
+      <mat-form-field class="w50">
+        <mat-label>Street</mat-label>
+        <input
+          matInput
+          placeholder="Enter street name"
+          [formControlName]="'authorAddStreet'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w50">
+        <mat-label>District</mat-label>
+        <input
+          matInput
+          placeholder="Enter district name"
+          [formControlName]="'authorAddDistrict'"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w50">
+        <mat-label>State</mat-label>
+        <input
+          matInput
+          placeholder="Enter state"
+          [formControlName]="'authorAddState'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w50">
+        <mat-label>Postal Code</mat-label>
+        <input
+          matInput
+          placeholder="Enter postal code"
+          [formControlName]="'authorAddPostalCode'"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w50">
+        <mat-label>Author Email address</mat-label>
+        <input
+          matInput
+          placeholder="Enter email address of author"
+          [formControlName]="'authorEmail'"
+        />
+      </mat-form-field>
+      <mat-form-field class="w50">
+        <mat-label>Author Contact Number</mat-label>
+        <input
+          matInput
+          placeholder="Enter author's contact number"
+          [formControlName]="'authorContact'"
+        />
+      </mat-form-field>
+      <div mat-dialog-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="editBookData()"
+          [disabled]="!form.valid"
+        >
+          Submit
+        </button>
+        <button mat-raised-button color="basic" (click)="closeModal()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

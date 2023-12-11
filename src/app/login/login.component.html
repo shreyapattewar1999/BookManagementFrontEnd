@@ -1,0 +1,51 @@
+<div class="login-container">
+  <h2 [ngStyle]="{ marginLeft: '12%' }">Login</h2>
+  <form [formGroup]="form">
+    <mat-form-field class="w30">
+      <mat-label>Email Address</mat-label>
+      <input
+        matInput
+        placeholder="Enter email address"
+        [formControlName]="'emailAddress'"
+        autocomplete="new-email"
+        name="emailnoauto"
+      />
+    </mat-form-field>
+    <br />
+    <mat-form-field [ngStyle]="{ paddingRight: '2%' }" class="w30">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        placeholder="Enter password"
+        [formControlName]="'password'"
+        autocomplete="new-password"
+        name="passwordnoauto"
+      />
+    </mat-form-field>
+
+    <br />
+
+    <div mat-dialog-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="login()"
+        [disabled]="!form.valid"
+        [ngStyle]="{ marginLeft: '6%', marginRight: '2%' }"
+      >
+        Submit
+      </button>
+      <button
+        mat-stroked-button
+        color="basic"
+        (click)="clearForm()"
+        [disabled]="form.pristine"
+      >
+        Clear Credentials
+      </button>
+
+      <!-- form.prestine ==> whether input controls have been interacted or not -->
+    </div>
+  </form>
+</div>

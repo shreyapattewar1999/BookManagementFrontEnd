@@ -1,0 +1,54 @@
+<mat-toolbar color="primary" *ngIf="flag">
+  <mat-toolbar-row> <h3>Book Management System</h3></mat-toolbar-row>
+
+  <mat-toolbar-row *ngIf="!isSwaggerMock">
+    <span class="spacer">
+      <button
+        class="m4"
+        mat-raised-button
+        color="basic"
+        routerLink="/login"
+        routerLinkActive="active"
+        *ngIf="!isUserAuthenticated"
+      >
+        LogIn
+      </button>
+      <button
+        class="m4"
+        mat-raised-button
+        color="basic"
+        (click)="registerNewUser()"
+      >
+        Register New User
+      </button>
+    </span>
+    <!-- <button
+      mat-raised-button
+      color="primary"
+      routerLink="/angular-material"
+      routerLinkActive="active"
+    >
+      Angular-Material
+    </button> -->
+    <span
+      *ngIf="isUserAuthenticated && displayName.length > 0"
+      [ngStyle]="{ marginRight: '1%' }"
+    >
+      Hi {{ displayName }}
+    </span>
+    <div>
+      <ng-template> </ng-template>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="logOut()"
+        *ngIf="isUserAuthenticated"
+      >
+        Logout
+      </button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- routerLink="/register"
+routerLinkActive="active" -->
