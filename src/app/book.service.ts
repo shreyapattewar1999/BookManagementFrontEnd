@@ -7,15 +7,12 @@ import {
   BASE_URL,
   GET_ALL_BOOKS,
   UPDATE_BOOK,
-  POST_BOOK,
-  POST_USER,
   USER_API,
   ADD_BOOK,
   BOOKS_API,
   DELETE_BOOK_BY_ID,
   ISSUE_BOOK,
 } from './constants';
-import { IUser } from './models/user.model';
 import { LocalService } from './local.service';
 
 @Injectable({
@@ -298,9 +295,7 @@ export class BookService {
 
   issueBook(bookId: string): Observable<any> {
     let updatedUrl = ISSUE_BOOK.replace('{bookId}', bookId);
-    let userData: any = JSON.parse(
-      this.localStorageService.getData('userData')!
-    );
+    let userData: any = this.localStorageService.getData('userData')!;
     let issueBookUrl = updatedUrl.replace(
       '{userId}',
       userData?.userId.toString()

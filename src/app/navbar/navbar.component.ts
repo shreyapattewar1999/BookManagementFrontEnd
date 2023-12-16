@@ -1,21 +1,27 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 import { AuthenticationService } from '../authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalService } from '../local.service';
 import { DOCUMENT } from '@angular/common';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isUserAuthenticated: boolean = false;
   displayName: string = '';
   flag: boolean = false;
-  isSwaggerMock: boolean = false;
+  userData: any;
+  isShowMenu: boolean = false;
+  currentPath: string = '';
+  private showMenuSubscription: Subscription;
+  private loginFlagSubscription: Subscription;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private authService: AuthenticationService,
@@ -24,30 +30,37 @@ export class NavbarComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location
   ) {
-    const currentUrl = this.location.path();
-    if (currentUrl.indexOf('swagger-mock') > -1) {
-      this.isSwaggerMock = true;
-    }
-    this.authService.isLoggedInFlag.subscribe((value) => {
-      this.isUserAuthenticated = value;
-    });
+    this.currentPath = this.location.path();
+    this.showMenuSubscription = this.authService.showMenu$.subscribe(
+      (newVal) => {
+        this.isShowMenu = newVal;
+      }
+    );
+    this.loginFlagSubscription = this.authService.isLoggedIn$.subscribe(
+      (newVal) => {
+        this.isUserAuthenticated = newVal;
+      }
+    );
+    // if (this.currentPath.indexOf('swagger-mock') > -1) {
+    //   this.isShowMenu = true;
+    // }
+    // this.authService.isLoggedInFlag.subscribe((value) => {
+    //   this.isUserAuthenticated = value;
+    // });
     this.flag = false;
-    this.isUserAuthenticated = this.authService.isUserAuthenticated();
   }
 
   ngOnInit(): void {
-    // const userData =
-    //   this.router.getCurrentNavigation()?.extras.state?.['userData'];
-
     this.getDisplayName();
   }
 
   getDisplayName(): void {
-    const userData = localStorage.getItem('userData');
-
-    if (userData) {
+    // this.userData = localStorage.getItem('userData');
+    this.userData = this.localStorageService.getData('userData');
+    if (this.userData) {
       this.isUserAuthenticated = true;
-      this.displayName = JSON.parse(userData).firstName;
+      this.displayName = this.userData.firstName;
+      this.authService.updateShowMenuFlag(true);
     }
     this.flag = true;
   }
@@ -56,10 +69,6 @@ export class NavbarComponent implements OnInit {
     // localStorage.removeItem('userData');
     this.router.navigateByUrl('/login');
     this.removeUserData();
-  }
-
-  isAuthenticated() {
-    return this.authService.isUserAuthenticated;
   }
 
   registerNewUser(): void {
@@ -76,6 +85,13 @@ export class NavbarComponent implements OnInit {
   removeUserData(): void {
     this.localStorageService.removeData('userData');
     this.displayName = '';
-    this.authService.isLoggedInFlag.next(false);
+    this.authService.updateIsLoggedInFlag(false);
+  }
+
+  navigateToAuthors(): void {}
+
+  ngOnDestroy(): void {
+    this.showMenuSubscription.unsubscribe();
+    this.loginFlagSubscription.unsubscribe();
   }
 }

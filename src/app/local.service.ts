@@ -5,20 +5,34 @@ import { Injectable, Inject } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalService {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
-  public saveData(key: string, value: string) {
-    localStorage.setItem(key, value);
+  localStorageUtility: any;
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    this.localStorageUtility = this.document.defaultView?.localStorage;
+  }
+  public saveData(key: string, value: any) {
+    if (this.localStorageUtility) {
+      this.localStorageUtility.setItem(key, JSON.stringify(value));
+    }
   }
 
   public getData(key: string) {
-    return localStorage.getItem(key);
+    if (this.localStorageUtility) {
+      return JSON.parse(this.localStorageUtility.getItem(key));
+    }
+    // if (this.localStorageUtility.has(key)) {
+    // }
+    return;
   }
   public removeData(key: string) {
-    localStorage.removeItem(key);
+    if (this.localStorageUtility) {
+      this.localStorageUtility.removeItem(key);
+    }
   }
 
   public clearData() {
-    localStorage.clear();
+    if (this.localStorageUtility) {
+      this.localStorageUtility.clear();
+    }
   }
 }
 

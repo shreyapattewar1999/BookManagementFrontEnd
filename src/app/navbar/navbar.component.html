@@ -1,7 +1,53 @@
 <mat-toolbar color="primary" *ngIf="flag">
-  <mat-toolbar-row> <h3>Book Management System</h3></mat-toolbar-row>
+  <mat-toolbar-row class="flexExpand">
+    <h3>Book Management System</h3>
+    <div *ngIf="isShowMenu">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <i class="material-icons">menu</i>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/login" *ngIf="!isUserAuthenticated">
+          Log In
+        </button>
+        <button
+          mat-menu-item
+          *ngIf="isUserAuthenticated && userData?.isAdmin"
+          (click)="registerNewUser()"
+        >
+          Register New User
+        </button>
+        <button
+          mat-menu-item
+          *ngIf="isUserAuthenticated && userData?.isAdmin"
+          routerLink="/authors"
+        >
+          Authors
+        </button>
+        <button
+          mat-menu-item
+          *ngIf="isUserAuthenticated && userData?.isAdmin"
+          routerLink="/books"
+        >
+          Books
+        </button>
+        <!--
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button> -->
+        <button mat-menu-item *ngIf="isUserAuthenticated" (click)="logOut()">
+          <!-- <mat-icon>notifications_off</mat-icon> -->
+          <span>Log Out</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
 
-  <mat-toolbar-row *ngIf="!isSwaggerMock">
+  <!-- <mat-toolbar-row *ngIf="!isSwaggerMock">
     <span class="spacer">
       <button
         class="m4"
@@ -17,19 +63,20 @@
         class="m4"
         mat-raised-button
         color="basic"
+        *ngIf="isUserAuthenticated && userData?.isAdmin"
         (click)="registerNewUser()"
       >
         Register New User
       </button>
     </span>
-    <!-- <button
+    <button
       mat-raised-button
       color="primary"
       routerLink="/angular-material"
       routerLinkActive="active"
     >
       Angular-Material
-    </button> -->
+    </button>
     <span
       *ngIf="isUserAuthenticated && displayName.length > 0"
       [ngStyle]="{ marginRight: '1%' }"
@@ -37,7 +84,6 @@
       Hi {{ displayName }}
     </span>
     <div>
-      <ng-template> </ng-template>
       <button
         mat-raised-button
         color="accent"
@@ -47,7 +93,7 @@
         Logout
       </button>
     </div>
-  </mat-toolbar-row>
+  </mat-toolbar-row> -->
 </mat-toolbar>
 
 <!-- routerLink="/register"

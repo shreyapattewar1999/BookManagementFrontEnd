@@ -10,3 +10,8 @@
 .m4 {
   margin: 4px;
 }
+
+.flexExpand {
+  display: flex;
+  justify-content: space-between;
+}

@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authService.updateShowMenuFlag(false);
     this.localStorageService.removeData('userData');
   }
 
@@ -42,11 +43,13 @@ export class LoginComponent implements OnInit {
     this.authService.verifyUser(userData).subscribe(
       (result: any) => {
         if (result) {
-          localStorage.setItem('userData', JSON.stringify(result.data));
-          this.authService.setUserLogin(true);
+          this.localStorageService.saveData('userData', result.data);
+          // localStorage.setItem('userData', JSON.stringify(result.data));
           this.router.navigateByUrl('/');
           // this.router.navigate(['/', { state: { userData: result.data } }]);
-          this.authService.isLoggedInFlag.next(true);
+          // this.authService.isLoggedInFlag.next(true);
+          this.authService.updateIsLoggedInFlag(true);
+          this.authService.updateShowMenuFlag(true);
         }
       },
       (error) => {

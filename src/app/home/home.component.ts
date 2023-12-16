@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IEndPoint } from '../models/endpoint.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BookService } from '../book.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -15,9 +16,13 @@ export class HomeComponent implements OnInit {
   output: any;
   form = new FormGroup({});
 
-  constructor(private bookService: BookService) {
+  constructor(
+    private bookService: BookService,
+    private authService: AuthenticationService
+  ) {
     this.bookEndPoints = bookService.getBookEndPoints();
     this.authorEndPoints = bookService.getAuthorEndPoints();
+    this.authService.updateShowMenuFlag(false);
   }
 
   ngOnInit(): void {

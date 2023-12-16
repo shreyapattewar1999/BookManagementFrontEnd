@@ -1,28 +1,36 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, Inject, OnInit } from '@angular/core';
 import { IUser } from './models/user.model';
 import { Observable, Subject } from 'rxjs';
 import { BASE_URL, USER_API, VERIFY_USER } from './constants';
 import { HttpClient } from '@angular/common/http';
+import { LocalService } from './local.service';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  isLoggedIn: boolean = false;
   isLoggedInFlag: Subject<boolean> = new Subject<boolean>();
+  isLoggedIn$ = this.isLoggedInFlag.asObservable();
+  showMenuSubject: Subject<boolean> = new Subject<boolean>();
+  showMenu$ = this.showMenuSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.isLoggedInFlag.subscribe((value) => {
-      this.isLoggedIn = value;
-    });
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalService
+  ) {
+    const userData = this.localStorageService?.getData('userData');
+    if (userData) {
+      this.isLoggedInFlag.next(true);
+    }
   }
 
-  isUserAuthenticated(): boolean {
-    return this.isLoggedIn;
+  updateShowMenuFlag(newVal: boolean): void {
+    this.showMenuSubject.next(newVal);
   }
 
-  setUserLogin(value: boolean): void {
-    this.isLoggedIn = value;
+  updateIsLoggedInFlag(newVal: boolean): void {
+    this.isLoggedInFlag.next(newVal);
   }
 
   postUserDetails(userData: IUser): Observable<any> {

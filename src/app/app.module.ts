@@ -29,7 +29,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { AuthorsComponent } from './authors/authors.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { RouterModule } from '@angular/router';
     BookDetailsComponent,
     NavbarComponent,
     LoginComponent,
+    AuthorsComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,7 @@ import { RouterModule } from '@angular/router';
     MatTableModule,
     MatToolbarModule,
     RouterModule,
+    MatMenuModule,
     // MatAccordion,
     // NgModule,
   ],

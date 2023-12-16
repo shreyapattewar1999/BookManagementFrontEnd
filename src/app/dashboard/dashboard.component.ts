@@ -3,7 +3,6 @@ import { BookService } from '../book.service';
 import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
 import { IBook } from '../models/book.model';
 import { MatPaginator } from '@angular/material/paginator';
-import { merge, startWith, switchMap, catchError, map } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { BookDetailsComponent } from '../book-details/book-details.component';
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,6 +33,7 @@ export class DashboardComponent implements OnInit {
   isRateLimitReached = false;
   flag = false;
   dataSource!: MatTableDataSource<any>;
+  showFiller = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.flag = false;
-    this.userData = JSON.parse(this.localStorageService.getData('userData')!);
+    this.userData = this.localStorageService.getData('userData');
     if (!this.userData) {
       this.router.navigateByUrl('/login');
     }
@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit {
     }
     this.getData();
   }
+
   deleteBook(selectedBook: IBook): void {
     if (window.confirm('Are you sure you want to delete this book ?')) {
       this.flag = false;
