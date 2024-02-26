@@ -1,7 +1,14 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalService } from '../local.service';
 import { DOCUMENT } from '@angular/common';
 import { Location } from '@angular/common';
@@ -27,7 +34,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthenticationService,
     private router: Router,
     private localStorageService: LocalService,
-    private route: ActivatedRoute,
     private location: Location
   ) {
     this.currentPath = this.location.path();

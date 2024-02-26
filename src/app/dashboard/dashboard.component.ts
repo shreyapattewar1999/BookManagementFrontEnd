@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { BookService } from '../book.service';
-import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { IBook } from '../models/book.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   showFiller = false;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | any;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
 
   constructor(
@@ -65,9 +65,21 @@ export class DashboardComponent implements OnInit {
         .subscribe((result) => {
           this.allBooks = result;
           this.dataSource = new MatTableDataSource(result);
+          // this.dataSource.data = result;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
           this.flag = true;
           alert('Book has been deleted');
         });
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 
@@ -78,6 +90,9 @@ export class DashboardComponent implements OnInit {
       this.bookService.getAllBooks().subscribe((result: IBook[]) => {
         this.allBooks = result;
         this.dataSource = new MatTableDataSource(this.allBooks);
+        // this.dataSource.data = result;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.flag = true;
       });
     }, 0);

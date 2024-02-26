@@ -5,11 +5,11 @@ import { BookService } from '../book.service';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  selector: 'app-swagger-mock',
+  templateUrl: './swagger-mock.component.html',
+  styleUrl: './swagger-mock.component.css',
 })
-export class HomeComponent implements OnInit {
+export class SwaggerMockComponent implements OnInit {
   bookEndPoints: IEndPoint[] = [];
   authorEndPoints: IEndPoint[] = [];
 

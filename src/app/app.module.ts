@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './home/home.component';
+import { SwaggerMockComponent } from './swagger-mock/swagger-mock.component';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,10 +31,12 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthorsComponent } from './authors/authors.component';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    SwaggerMockComponent,
     DashboardComponent,
     SignupComponent,
     BookDetailsComponent,
@@ -65,6 +67,7 @@ import { AuthorsComponent } from './authors/authors.component';
     MatToolbarModule,
     RouterModule,
     MatMenuModule,
+    MatSortModule,
     // MatAccordion,
     // NgModule,
   ],

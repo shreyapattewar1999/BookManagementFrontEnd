@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SignupComponent } from './signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { SwaggerMockComponent } from './swagger-mock/swagger-mock.component';
 import { AuthorsComponent } from './authors/authors.component';
 import { AuthGuard } from './auth.guard';
 import { AdminGuard } from './admin.guard';
@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'swagger-mock',
-    component: HomeComponent,
+    component: SwaggerMockComponent,
   },
   {
     path: '',

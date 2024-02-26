@@ -52,6 +52,7 @@ export class SignupComponent implements OnInit {
 
     this.authService.postUserDetails(userData).subscribe(() => {
       this.router.navigateByUrl('/login');
+      alert('New user has been created');
       this.localStorageService.saveData('userData', JSON.stringify(userData));
       // localStorage.setItem('userData', JSON.stringify(userData));
     });
